@@ -9,10 +9,9 @@ $ npm install
 ```
 
 ## Setup ENV
-$ copy .env.demo -> .env
+$ cp .env.demo .env
 $ docker-compose up  
 ## Running the app
-
 ```bash
 # development
 $ npm run start
@@ -23,6 +22,11 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+## Running with docker
+```bash
+$ docker build -t xenia .
+$ docker run --env-file=.env -p 3234:3000 xenia
+```
 
 ## Watch API sandbox
 ```bash
@@ -31,24 +35,34 @@ $ go to https://studio.apollographql.com/sandbox/explorer
 $ edit endpoint http://localhost:3000/xenia/graphql
 $ check on documentation
 ```
-
-## OAuth 2.0
-```bash
-$ Google OAuth
-$ go to DOMAIN_URI/google
-$ ex: http://localhost:3000/google
-```
 ## Introduction
 ```bash
 - Technical description
 -- NestJS - Clean Architecture
 -- Mongoose
 -- Apollo GraphQL
+-- Google Oauth 2.0 
 ```
-## Graphql example
+## Flow
 ```bash
+Public domain: "http://khuongdao.me:30002"
+Register: "http://khuongdao.me:30002/google"
+Api: "http://khuongdao.me:30002/xenia/graphql"
+Health: "http://khuongdao.me:30002/xenia/health"
 default username anki.truong98@gmail.com
 schema description src/graphql/schema.gql
+
+- Data can be reset after longtime
+- Everyone can see list cars
+- Each username can only be registered once
+- Each username only has 50 cars
+- If createCars has the same vehicle model, user name, vehicle name -> No change
+- If carDetails has the same carId, date -> update
+- You can use default username
+```
+
+## Graphql example
+```bash
 query GetUserDefault {
   getUserDefault {
     username
@@ -80,6 +94,7 @@ mutation CreateCars {
     username
     uuid
   }
+}
 
 query GetAll {
   getAll(
@@ -123,7 +138,6 @@ mutation ActiveCars {
       price
     }
   }
-}
 }
 
 mutation Mutation($username: String!) {
