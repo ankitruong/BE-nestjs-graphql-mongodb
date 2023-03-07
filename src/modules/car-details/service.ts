@@ -1,19 +1,49 @@
 import { Injectable } from '@nestjs/common';
+import { ClientSession } from 'mongoose';
+import { CAR_MODEL_ENUM } from '../car/entity';
 import { FilterParams } from './dtos/filter.dto';
-import { CarDetailsEntity } from './entity';
+import { CarDetailsEntity, ICarDetails } from './entity';
 import { CarDetailsRepository } from './repo';
 
 @Injectable()
 export class CarDetailsService {
   constructor(private repository: CarDetailsRepository) {}
 
-  async create(data: CarDetailsEntity) {
-    const result = await this.repository.findOneAndUpdate(data);
+  async hanleGqlCreate(
+    carId: string,
+    model: CAR_MODEL_ENUM,
+    data: Partial<ICarDetails>[],
+    username: string,
+    session?: ClientSession,
+  ) {
+    const carDetailsEntities = [];
+    for (const details of data) {
+      const { date, price } = details;
+      const carDetailEntity = await this.create(
+        CarDetailsEntity.init({
+          carInfo: {
+            uuid: carId,
+            model: model,
+          },
+          createdBy: username,
+          date,
+          price,
+        }),
+        session,
+      );
+      carDetailsEntities.push(carDetailEntity);
+    }
+
+    return carDetailsEntities;
+  }
+
+  async create(data: CarDetailsEntity, session?: ClientSession) {
+    const result = await this.repository.findOneAndUpdate(data, session);
     return CarDetailsEntity.fromMongoDb(result);
   }
 
-  async createMany(entities: CarDetailsEntity[]) {
-    const result = await this.repository.createMany(entities);
+  async createMany(entities: CarDetailsEntity[], session?: ClientSession) {
+    const result = await this.repository.createMany(entities, session);
     return result.map(CarDetailsEntity.fromMongoDb);
   }
 

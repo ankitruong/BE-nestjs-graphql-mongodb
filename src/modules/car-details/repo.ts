@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { GraphQLError } from 'graphql';
-import { Model } from 'mongoose';
+import { ClientSession, Model } from 'mongoose';
 import { CarDetailsEntity } from './entity';
 import { CarDetailsDocument } from './schema';
 @Injectable()
@@ -11,16 +11,21 @@ export class CarDetailsRepository {
     private model: Model<CarDetailsDocument>,
   ) {}
 
-  async create(entity: CarDetailsEntity): Promise<CarDetailsDocument> {
+  async create(
+    entity: CarDetailsEntity,
+    session?: ClientSession,
+  ): Promise<CarDetailsDocument> {
     if (!entity) {
       throw new GraphQLError('Missing params');
     }
 
-    return this.model.create(entity.toDto());
+    const result = await this.model.insertMany(entity.toDto(), { session });
+    return result[0];
   }
 
   async findOneAndUpdate(
     entity: CarDetailsEntity,
+    session?: ClientSession,
   ): Promise<CarDetailsDocument> {
     if (!entity.carInfo) {
       throw new GraphQLError('Missing params');
@@ -32,18 +37,22 @@ export class CarDetailsRepository {
         date: data.date,
       },
       data,
-      { upsert: true, new: true },
+      { upsert: true, new: true, session },
     );
   }
 
   async createMany(
     entities: CarDetailsEntity[],
+    session?: ClientSession,
   ): Promise<CarDetailsDocument[]> {
     if (!entities?.length) {
       throw new GraphQLError('Missing params');
     }
 
-    return this.model.create(entities.map((e) => e.toDto()));
+    return this.model.insertMany(
+      entities.map((e) => e.toDto()),
+      { session },
+    );
   }
 
   async findByIds(uuids: string[]) {

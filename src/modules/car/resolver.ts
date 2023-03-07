@@ -6,9 +6,10 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { GraphQLError } from 'graphql';
 import { CarDetailsEntity } from '../car-details/entity';
 import { CarDetailsService } from '../car-details/service';
-import { GqlCreateCarDto } from './dtos/gql-create-car';
+import { GqlActiveCarDto, GqlCreateCarDto } from './dtos/gql-create-car';
 import { CarEntity } from './entity';
 import { CarService } from './service';
 
@@ -42,31 +43,52 @@ export class CarResolver {
   ): Promise<CarEntity[]> {
     const result = [];
     for (const car of cars) {
-      const { carDetails } = car;
-      const entity = await this.service.create(
-        CarEntity.fromCreateGql(car, username),
-      );
-      if (carDetails?.length) {
-        const carDetailsEntities = [];
-        for (const details of carDetails) {
-          const { date, price } = details;
-          const carDetailEntity = await this.carDetailsService.create(
-            CarDetailsEntity.init({
-              carInfo: {
-                uuid: entity.uuid,
-                model: entity.model,
-              },
-              createdBy: username,
-              date,
-              price,
-            }),
-          );
-          carDetailsEntities.push(carDetailEntity);
-        }
-        entity.carDetails = carDetailsEntities;
-      }
+      const entity = await this.service.hanldeGqlCreate(car, username);
       result.push(entity);
     }
+    return result;
+  }
+
+  @Mutation(() => [CarEntity])
+  async activeCars(
+    @Args({ name: 'username', type: () => String })
+    username: string,
+    @Args({ name: 'cars', type: () => [GqlActiveCarDto] })
+    cars: GqlActiveCarDto[],
+  ): Promise<CarEntity[]> {
+    const result = [];
+    const carIds = new Set(cars.map((i) => i.carId));
+    const entities = await this.service.findByUuids([...carIds]);
+
+    if (!entities.length) {
+      throw new GraphQLError('carIds do not exist');
+    }
+
+    const entityMapById = new Map<string, CarEntity>();
+    entities.forEach((e) => {
+      entityMapById.set(e.uuid, e);
+    });
+    for (const car of cars) {
+      const { carDetails, carId } = car;
+
+      const entity = entityMapById.get(carId);
+      if (!entity) {
+        throw new GraphQLError(`carId ${carId} does not exist`);
+      }
+      if (entity.username != username) {
+        throw new GraphQLError('FORBIDDEN');
+      }
+
+      const carDetailsEntities = await this.service.hanldeGqlActiveCar(
+        entity.uuid,
+        entity.model,
+        carDetails,
+        username,
+      );
+      entity.carDetails = carDetailsEntities;
+      result.push(entity);
+    }
+
     return result;
   }
 

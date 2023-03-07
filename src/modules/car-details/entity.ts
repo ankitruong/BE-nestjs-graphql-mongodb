@@ -69,6 +69,7 @@ export class CarDetailsEntity implements ICarDetails {
     if (!data.createdBy) {
       throw new GraphQLError('Missing params');
     }
+
     this.uuid = data.uuid;
     this.carInfo = data.carInfo;
     this.date = FormatDate(data.date);
