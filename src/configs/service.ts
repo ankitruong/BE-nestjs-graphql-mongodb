@@ -43,6 +43,10 @@ export class ConfigService {
   get GOOGLE_SECRET(): string {
     return process.env.GOOGLE_SECRET;
   }
+
+  get DEFAULT_USERNAME(): string {
+    return 'anki.truong98@gmail.com';
+  }
 }
 
 export const configService = new ConfigService();

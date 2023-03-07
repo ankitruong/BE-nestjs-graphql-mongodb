@@ -1,0 +1,79 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+enum CAR_MODEL_ENUM {
+  BWM
+  MEC
+  TOY
+}
+
+type CarDetailsEntity {
+  carInfo: CarEntity!
+  createAt: DateTime!
+  createdBy: String!
+  date: DateTime!
+  price: Int!
+  updateAt: DateTime!
+  uuid: String!
+}
+
+type CarEntity {
+  carDetails: [CarDetailsEntity!]
+  carName: String!
+  createAt: DateTime!
+  model: CAR_MODEL_ENUM!
+  updateAt: DateTime!
+  username: String!
+  uuid: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input FilterParams {
+  fromDate: String
+  fromPrice: Int
+  models: [CAR_MODEL_ENUM!]
+  owners: [String!]
+  toDate: String
+  toPrice: Int
+}
+
+input GqlActiveCarDto {
+  carDetails: [GqlCreateCarDetails!]!
+  carId: String!
+}
+
+input GqlCreateCarDetails {
+  date: DateTime!
+  price: Int!
+}
+
+input GqlCreateCarDto {
+  carDetails: [GqlCreateCarDetails!]
+  carName: String!
+  model: CAR_MODEL_ENUM!
+}
+
+type Mutation {
+  activeCars(cars: [GqlActiveCarDto!]!, username: String!): [CarEntity!]!
+  createCars(cars: [GqlCreateCarDto!]!, username: String!): [CarEntity!]!
+  removeByUsername(username: String!): Boolean!
+}
+
+type Query {
+  getAll(query: FilterParams!): [CarDetailsEntity!]!
+  getCarByUuid(uuid: String!): CarEntity
+  getCarDetailsByUsername(username: String!): CarDetailsEntity
+  getUserDefault: UserEntity
+}
+
+type UserEntity {
+  createAt: DateTime!
+  updateAt: DateTime!
+  username: String!
+  uuid: String!
+}

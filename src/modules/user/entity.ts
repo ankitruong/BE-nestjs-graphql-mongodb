@@ -1,5 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema } from '@nestjs/mongoose';
+import { GraphQLError } from 'graphql';
 import { ObjectId } from 'mongoose';
 import { v4 as uuid } from 'uuid';
 import { UserDocument } from './schema';
@@ -34,7 +35,11 @@ export class UserEntity implements IUser {
   @Field(() => Date)
   updateAt: Date;
 
-  constructor(data: IUser) {
+  constructor(data: Partial<IUser>) {
+    if (!data.username) {
+      throw new GraphQLError('Missing params');
+    }
+
     this.uuid = data.uuid;
     this.username = data.username;
     this.createAt = data.createAt || new Date();
@@ -50,7 +55,7 @@ export class UserEntity implements IUser {
     };
   }
 
-  static fromGG(data: IUser): UserEntity {
+  static fromGG(data: Partial<IUser>): UserEntity {
     const entity = new UserEntity(data);
     entity.uuid = entity.uuid || uuid();
 
