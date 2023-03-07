@@ -49,8 +49,9 @@ Public domain: "http://khuongdao.me:30002"
 Register: "http://khuongdao.me:30002/google"
 Api: "http://khuongdao.me:30002/xenia/graphql"
 Health: "http://khuongdao.me:30002/xenia/health"
-default username anki.truong98@gmail.com
-schema description src/graphql/schema.gql
+Default username anki.truong98@gmail.com
+Schema description src/graphql/schema.gql
+Api collection: api-collection.postman_collection.json
 
 - Data can be reset after longtime
 - Everyone can see list cars

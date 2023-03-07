@@ -1,0 +1,160 @@
+{
+	"info": {
+		"_postman_id": "63b92e60-09a9-46ba-aa00-527078797922",
+		"name": "api-collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18855106"
+	},
+	"item": [
+		{
+			"name": "query",
+			"item": [
+				{
+					"name": "getUserDefault",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query GetUserDefault {\n  getUserDefault {\n    username\n    uuid\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "http://khuongdao.me:30002/xenia/graphql",
+							"protocol": "http",
+							"host": [
+								"khuongdao",
+								"me"
+							],
+							"port": "30002",
+							"path": [
+								"xenia",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query GetAll {\n  getAll(\n    query: {\n      toPrice: null\n      toDate: \"2023-03-09T00:00:00.000Z\"\n      owners: [\"anki.truong98@gmail.com\"]\n      models: [TOY, MEC, BWM]\n      fromPrice: 100000\n      fromDate: null\n    }\n  ) {\n    carInfo {\n      model\n      createAt\n      updateAt\n      username\n      uuid\n      carName\n    }\n    price\n    date\n    uuid\n    createdBy\n  }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "http://khuongdao.me:30002/xenia/graphql",
+							"protocol": "http",
+							"host": [
+								"khuongdao",
+								"me"
+							],
+							"port": "30002",
+							"path": [
+								"xenia",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "mutation",
+			"item": [
+				{
+					"name": "removeByUsername",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation Mutation($username: String!) {\n  removeByUsername(username: $username)\n}",
+								"variables": "{\n  \"username\": \"anki.truong98@gmail.com\"\n}"
+							}
+						},
+						"url": {
+							"raw": "http://khuongdao.me:30002/xenia/graphql",
+							"protocol": "http",
+							"host": [
+								"khuongdao",
+								"me"
+							],
+							"port": "30002",
+							"path": [
+								"xenia",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "activeCars",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "\nmutation ActiveCars {\n  activeCars(\n    cars: [\n      {\n        carId: \"\"\n        carDetails: [\n          { date: \"2023-03-10T03:51:14.037Z\", price: 200000 }\n          { date: \"2023-03-9T03:51:14.037Z\", price: 180000 }\n        ]\n      }\n    ]\n    username: \"anki.truong98@gmail.com\"\n  ) {\n    uuid\n    username\n    carName\n    createAt\n    model\n    carDetails {\n      date\n      price\n    }\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "http://khuongdao.me:30002/xenia/graphql",
+							"protocol": "http",
+							"host": [
+								"khuongdao",
+								"me"
+							],
+							"port": "30002",
+							"path": [
+								"xenia",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createCars",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "\nmutation CreateCars {\n  createCars(\n    cars: [\n      {\n        carName: \"vios\"\n        model: TOY\n        carDetails: [{ date: \"2023-03-09T03:51:14.037Z\", price: 200000 }]\n      }\n    ]\n    username: \"anki.truong98@gmail.com\"\n  ) {\n    carName\n    carDetails {\n      carInfo {\n        uuid\n      }\n      date\n      price\n      uuid\n    }\n    model\n    username\n    uuid\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "http://khuongdao.me:30002/xenia/graphql",
+							"protocol": "http",
+							"host": [
+								"khuongdao",
+								"me"
+							],
+							"port": "30002",
+							"path": [
+								"xenia",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
