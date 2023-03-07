@@ -1,0 +1,13 @@
+version: '2.1'
+services:
+  mongodb_container:
+    image: mongo:latest
+    environment:
+      - MONGODB_DATABASE="challenge"
+    ports:
+      - 54322:27017
+    volumes:
+      - ./data:/data/db
+
+networks:
+  internal:
