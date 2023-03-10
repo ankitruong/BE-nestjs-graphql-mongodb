@@ -9,7 +9,7 @@ import { CarDetailsRepository } from './repo';
 export class CarDetailsService {
   constructor(private repository: CarDetailsRepository) {}
 
-  async hanleGqlCreate(
+  async handleGqlCreate(
     carId: string,
     model: CAR_MODEL_ENUM,
     data: Partial<ICarDetails>[],

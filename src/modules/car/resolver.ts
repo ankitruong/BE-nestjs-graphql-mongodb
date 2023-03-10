@@ -43,7 +43,7 @@ export class CarResolver {
   ): Promise<CarEntity[]> {
     const result = [];
     for (const car of cars) {
-      const entity = await this.service.hanldeGqlCreate(car, username);
+      const entity = await this.service.handleGqlCreate(car, username);
       result.push(entity);
     }
     return result;

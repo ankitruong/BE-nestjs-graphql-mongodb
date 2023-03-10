@@ -106,9 +106,9 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "\nmutation ActiveCars {\n  activeCars(\n    cars: [\n      {\n        carId: \"\"\n        carDetails: [\n          { date: \"2023-03-10T03:51:14.037Z\", price: 200000 }\n          { date: \"2023-03-9T03:51:14.037Z\", price: 180000 }\n        ]\n      }\n    ]\n    username: \"anki.truong98@gmail.com\"\n  ) {\n    uuid\n    username\n    carName\n    createAt\n    model\n    carDetails {\n      date\n      price\n    }\n  }\n}",
-								"variables": ""
-							}
+                "query": "\nmutation ActiveCars {\n  activeCars(\n    cars: [\n      {\n        carId: \"\"\n        carDetails: [\n          { date: \"2023-03-10T03:51:14.037Z\", price: 200000 }\n          { date: \"2023-03-09T03:51:14.037Z\", price: 180000 }\n        ]\n      }\n    ]\n    username: \"anki.truong98@gmail.com\"\n  ) {\n    uuid\n    username\n    carName\n    createAt\n    model\n    carDetails {\n      date\n      price\n    }\n  }\n}",
+                "variables": ""
+              }
 						},
 						"url": {
 							"raw": "http://khuongdao.me:30002/xenia/graphql",

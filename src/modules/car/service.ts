@@ -16,7 +16,7 @@ export class CarService {
     private readonly connection: Connection,
   ) {}
 
-  async hanldeGqlCreate(data: GqlCreateCarDto, username: string) {
+  async handleGqlCreate(data: GqlCreateCarDto, username: string) {
     const session = await this.connection.startSession();
     session.startTransaction();
     try {
@@ -31,7 +31,7 @@ export class CarService {
         return entity;
       }
 
-      const carDetailsEntities = await this.carDetailsService.hanleGqlCreate(
+      const carDetailsEntities = await this.carDetailsService.handleGqlCreate(
         entity.uuid,
         entity.model,
         carDetails,
@@ -59,7 +59,7 @@ export class CarService {
     const session = await this.connection.startSession();
     session.startTransaction();
     try {
-      const carDetailsEntities = await this.carDetailsService.hanleGqlCreate(
+      const carDetailsEntities = await this.carDetailsService.handleGqlCreate(
         carId,
         model,
         carDetails,
