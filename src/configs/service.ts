@@ -25,7 +25,9 @@ export class ConfigService {
   }
 
   get DB_URI(): string {
-    return process.env.DB_URI || 'mongodb://localhost:54322/challenge';
+    return (
+      process.env.DB_URI || 'mongodb://localhost:54322/challenge?replicaSet=rs'
+    );
   }
 
   get DB_CHALLENGE_NAME(): string {
