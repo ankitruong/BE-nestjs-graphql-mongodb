@@ -23,10 +23,10 @@ export interface ICarDetails {
 
 @Schema()
 export class CarInfo {
-  @Prop()
+  @Prop({ index: true })
   uuid: string;
 
-  @Prop()
+  @Prop({ index: true })
   model: CAR_MODEL_ENUM;
 }
 const CarInfoSchema = SchemaFactory.createForClass(CarInfo);
@@ -41,7 +41,7 @@ export class CarDetailsEntity implements ICarDetails {
   @Field(() => String)
   uuid: string;
 
-  @Prop({ type: CarInfoSchema, index: true })
+  @Prop({ type: CarInfoSchema })
   @Field(() => CarEntity)
   carInfo: ICarDetails['carInfo'];
 
