@@ -33,7 +33,7 @@ export class CarEntity implements ICar {
   @Prop()
   name: 'car';
 
-  @Prop({ type: String, index: true })
+  @Prop({ type: String, index: true, unique: true })
   @Field(() => String)
   uuid: string;
 

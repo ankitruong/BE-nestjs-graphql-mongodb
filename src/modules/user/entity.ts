@@ -19,7 +19,7 @@ export class UserEntity implements IUser {
   @Prop()
   name: 'user';
 
-  @Prop({ type: String, index: true })
+  @Prop({ type: String, index: true, unique: true })
   @Field(() => String)
   uuid: string;
 

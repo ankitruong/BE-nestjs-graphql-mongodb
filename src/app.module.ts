@@ -24,13 +24,9 @@ import { GoogleStrategy } from './strategies/google.strategy';
         playground: true,
       }),
     }),
-    MongooseModule.forRootAsync({
-      useFactory: () => ({
-        uri: configService.DB_URI,
-        useNewUrlParser: true,
-        autoIndex: false,
-      }),
+    MongooseModule.forRoot(configService.DB_URI, {
       connectionName: configService.DB_CHALLENGE_NAME,
+      autoIndex: true,
     }),
     GGModule,
     HealthcheckModule.register(),

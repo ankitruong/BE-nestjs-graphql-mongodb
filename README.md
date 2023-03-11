@@ -10,7 +10,8 @@ $ npm install
 
 ## Setup ENV
 $ cp .env.demo .env
-$ docker-compose up  
+$ docker-compose up -d
+$ npm run setup-rs $port
 ## Running the app
 ```bash
 # development
@@ -123,7 +124,7 @@ mutation ActiveCars {
         carId: $carId from getAll
         carDetails: [
           { date: "2023-03-10T03:51:14.037Z", price: 200000 }
-          { date: "2023-03-9T03:51:14.037Z", price: 180000 }
+          { date: "2023-03-09T03:51:14.037Z", price: 180000 }
         ]
       }
     ]

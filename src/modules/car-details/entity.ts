@@ -37,7 +37,7 @@ export class CarDetailsEntity implements ICarDetails {
   @Prop()
   name: 'carDetails';
 
-  @Prop({ type: String, index: true })
+  @Prop({ type: String, index: true, unique: true })
   @Field(() => String)
   uuid: string;
 
