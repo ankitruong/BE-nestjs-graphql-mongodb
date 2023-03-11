@@ -1,4 +1,4 @@
-import { Field, InputType, OmitType, PickType } from '@nestjs/graphql';
+import { Field, InputType, PickType } from '@nestjs/graphql';
 import { CarDetailsEntity, ICarDetails } from '../../car-details/entity';
 import { CarEntity } from '../entity';
 
@@ -20,7 +20,7 @@ export class GqlCreateCarDto extends PickType(
 }
 
 @InputType()
-export class GqlActiveCarDto extends OmitType(CarEntity, ['carDetails']) {
+export class GqlActiveCarDto {
   @Field(() => [GqlCreateCarDetails])
   carDetails: Partial<ICarDetails>[];
 
